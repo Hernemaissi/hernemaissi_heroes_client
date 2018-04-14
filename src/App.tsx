@@ -10,6 +10,7 @@ import Loading from './scenes/Loading';
 import Town from './scenes/Town';
 import Shop from './scenes/Shop';
 import EventViewer from './EventViewer';
+import Battle from './scenes/Battle';
 
 const logo = require('./logo.svg');
 
@@ -77,6 +78,7 @@ class App extends React.Component<DispatchProps & StateProps, AppState> {
     this.clickMe = this.clickMe.bind(this);
     this.performAction = this.performAction.bind(this);
     this.buyItem = this.buyItem.bind(this);
+    this.attack = this.attack.bind(this);
   }
 
   componentWillUnmount() {
@@ -96,6 +98,10 @@ class App extends React.Component<DispatchProps & StateProps, AppState> {
     this.state.ws.send(JSON.stringify({id: 'buy', message: strIndex}));
   }
 
+  attack(index: number) {
+    this.state.ws.send(JSON.stringify({id: 'battleaction', message: 'attack', extra: { target: index }}));
+  }
+
   currentScene() {
     switch (this.props.player.currentScene.name) {
       case 'start': {
@@ -110,6 +116,19 @@ class App extends React.Component<DispatchProps & StateProps, AppState> {
       }
       case 'shop': {
         return <Shop onBuy={this.buyItem} />;
+      }
+      case 'battle': {
+        if (this.props.player.currentScene.name === 'battle') {
+          return (
+            <Battle
+              player={this.props.player}
+              battle={this.props.player.currentScene.battle}
+              attack={this.attack}
+            />
+          );
+        } else {
+          return <Loading />;
+        }
       }
       default:
         return <Loading />;

@@ -12,6 +12,10 @@ const initialState: Store.Player = {
       previousScene: null,
       inventory: [],
       gold: 0,
+      stats: {
+          hp: 10,
+          attack: 2,
+      },
   },
 };
 

@@ -14,6 +14,7 @@ class Town extends React.Component<TownProps, {}> {
             <div>
                 <div> You are in town! </div>
                 <button onClick={() => this.props.performAction('shop')}> SHOP </button>
+                <button onClick={() => this.props.performAction('battle')}> BATTLE </button>
             </div>
         );
     }
